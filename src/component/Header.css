@@ -1,0 +1,29 @@
+.header {
+  background-color: #ffffff;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 22px;
+  color: #222222;
+  margin: 0;
+}
+
+.nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #555555;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #8c7dff; /* 포인트 컬러 */
+}

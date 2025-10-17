@@ -1,0 +1,62 @@
+.post-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  margin: 20px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  font-family: "Inter", sans-serif;
+  position: relative;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa; /* hover 시 살짝 밝은 배경 */
+}
+
+.post-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #222222;
+}
+
+.post-card p {
+  font-size: 14px;
+  color: #555555;
+  margin: 4px 0;
+}
+
+.post-card .author {
+  font-weight: 600;
+  color: #8c7dff; /* 은은한 라벤더 컬러 포인트 */
+  display: flex;
+  align-items: center;
+}
+
+.post-card .author img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.post-card .date {
+  font-size: 12px;
+  color: #aaaaaa;
+  margin-left: 8px;
+}
+
+.post-card .badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: #ffd6ba; /* 파스텔 오렌지 */
+  color: #222222;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
