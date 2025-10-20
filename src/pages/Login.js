@@ -1,11 +1,28 @@
 import { useState } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axiosconfig";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = () => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post(
+        "/api/member/login",
+        new URLSearchParams({ email, password })
+      );
+      const res = await api.get("/api/member/me");
+      onLogin(res.data.email);
+      alert("로그인 성공");
+      navigate("/", { replace: true });
+    } catch (error) {
+      alert("로그인 실패");
+    }
+  };
   return (
     <div className="container">
       <h2>로그인</h2>

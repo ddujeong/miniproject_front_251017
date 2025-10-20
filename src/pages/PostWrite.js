@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import "./PostWrite.css";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axiosconfig";
 
-const PostWrite = () => {
+const PostWrite = ({ member }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
-  const handlePost = () => {
-    alert(`게시글 작성\n제목: ${title}\n내용: ${content}`);
-    setTitle("");
-    setContent("");
+  const handlePost = async (e) => {
+    e.preventDefault();
+    if (!member) {
+      alert("로그인 후 글을 작성해주세요");
+      return navigate("/login");
+    }
+    try {
+      await api.post("/api/post", { title, content });
+      alert("글 작성 완료");
+      navigate("/post");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -30,6 +42,13 @@ const PostWrite = () => {
         />
         <button type="submit" className="button">
           작성
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate("/post")}
+          className="button"
+        >
+          취소
         </button>
       </form>
     </div>

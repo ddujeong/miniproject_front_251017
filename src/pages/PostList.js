@@ -1,36 +1,36 @@
 import "./PostList.css";
 import PostCard from "../component/PostCard.js";
+import { useEffect, useState } from "react";
+import api from "../api/axiosconfig.js";
 
 const PostList = () => {
-  const dummyPosts = [
-    {
-      title: "첫 번째 게시글",
-      author: "김수정",
-      date: "2025-10-17",
-      content: "오늘 병원 다녀왔어요. 후기 남깁니다.",
-      category: "후기",
-    },
-    {
-      title: "두 번째 게시글",
-      author: "이준호",
-      date: "2025-10-16",
-      content: "미용실 예약하고 왔어요. 만족!",
-      category: "예약",
-    },
-    {
-      title: "세 번째 게시글",
-      author: "박서연",
-      date: "2025-10-15",
-      content: "병원 예약 팁 공유합니다.",
-      category: "정보",
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const loadPost = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get("/api/post");
+      setPosts(res.data);
+    } catch (error) {
+      console.error(error);
+      setError("게시글을 불러오는데 실패했습니다.");
+      setPosts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadPost();
+  }, []);
+
   return (
     <div className="post-list-container">
       <h1>게시판</h1>
+      {loading && <p>게시판 리스트 로딩 중...</p>}
       <div className="post-cards">
-        {dummyPosts.map((post, idx) => (
-          <PostCard key={idx} post={post} />
+        {posts.map((p, idx) => (
+          <PostCard key={idx} post={p} />
         ))}
       </div>
     </div>

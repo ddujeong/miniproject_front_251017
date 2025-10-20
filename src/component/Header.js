@@ -1,16 +1,23 @@
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ onLogout, member }) => {
   return (
     <header className="header">
       <div className="header-container">
-        <h1>미니병원/미용실</h1>
+        <h1>미니 관리샵</h1>
         <nav className="nav">
           <Link to="/">홈</Link>
+          <Link to="/post">게시판</Link>
           <Link to="/write">게시글 작성</Link>
-          <Link to="/login">로그인</Link>
-          <Link to="/signup">회원가입</Link>
+          {!member && <Link to="/login">로그인</Link>}
+          {!member && <Link to="/signup">회원가입</Link>}
+          {member && <Link to="/profile">마이페이지</Link>}
+          {member && (
+            <button className="nav-link logout" onClick={onLogout}>
+              로그아웃
+            </button>
+          )}
         </nav>
       </div>
     </header>

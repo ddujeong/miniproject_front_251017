@@ -8,17 +8,46 @@ import PostList from "./pages/PostList";
 import PostWrite from "./pages/PostWrite";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import Reservation from "./pages/Reservation";
+import Home from "./pages/Home";
+import { useEffect, useState } from "react";
+import api from "./api/axiosconfig";
 
 function App() {
+  const [member, setMember] = useState(null);
+  const checkMember = async () => {
+    try {
+      const res = await api.get("/api/member/me");
+      setMember(res.data.email);
+    } catch (error) {
+      setMember(null);
+    }
+  };
+
+  useEffect(() => {
+    checkMember();
+  }, []);
+  const handleLogout = async () => {
+    if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+      await api.post("/api/member/logout");
+      setMember(null);
+    }
+  };
   return (
     <Router>
-      <Header />
+      <Header onLogout={handleLogout} member={member} />
       <Routes>
-        <Route path="/" element={<PostList />}></Route>
-        <Route path="/post/:id" element={<PostDetail />}></Route>
-        <Route path="/write" element={<PostWrite />}></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/post" element={<PostList />}></Route>
+        <Route
+          path="/post/:id"
+          element={<PostDetail member={member} />}
+        ></Route>
+        <Route path="/write" element={<PostWrite member={member} />}></Route>
+        <Route path="/login" element={<Login onLogin={setMember} />}></Route>
         <Route path="/signup" element={<Register />}></Route>
+        <Route path="/profile" element={<Profile member={member} />}></Route>
+        <Route path="/reservation" element={<Reservation />}></Route>
       </Routes>
       <Footer />
     </Router>
