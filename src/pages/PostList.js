@@ -26,7 +26,7 @@ const PostList = () => {
 
   return (
     <div className="post-list-container">
-      <h1>게시판</h1>
+      <h1>후기 게시판</h1>
       {loading && <p>게시판 리스트 로딩 중...</p>}
       <div className="post-cards">
         {posts.map((p, idx) => (

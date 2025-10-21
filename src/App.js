@@ -47,7 +47,10 @@ function App() {
         <Route path="/login" element={<Login onLogin={setMember} />}></Route>
         <Route path="/signup" element={<Register />}></Route>
         <Route path="/profile" element={<Profile member={member} />}></Route>
-        <Route path="/reservation" element={<Reservation />}></Route>
+        <Route
+          path="/reservation"
+          element={<Reservation member={member} />}
+        ></Route>
       </Routes>
       <Footer />
     </Router>

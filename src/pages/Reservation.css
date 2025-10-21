@@ -107,12 +107,16 @@
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-.reservation-table td 예약 {
+.reservation-table td.예약 {
   color: #8c7dff; /* 보라: 예약 */
 }
-.reservation-table td 완료 {
+.reservation-table td.완료 {
   color: #aaa; /* 회색: 완료 */
 }
-.reservation-table td 취소 {
+.reservation-table td.취소 {
   color: #ff6b6b; /* 빨강: 취소 */
+}
+.reservation-table td.진행중 {
+  font-weight: bold;
+  color: #2c7900; /* 빨강: 취소 */
 }

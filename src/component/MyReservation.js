@@ -1,15 +1,22 @@
+import { useEffect } from "react";
+import api from "../api/axiosconfig";
 import "../pages/Reservation.css";
 
-const MyReservation = ({ reservations, onEdit, onCancel }) => {
-  const now = new Date();
+const MyReservation = ({ reservations, onCancel }) => {
   const getStatus = (reservation) => {
+    const now = new Date();
+    const startTime = new Date(reservation.reservationdatetime);
+    const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
     if (reservation.status === "취소") return "취소";
-    if (reservation.reservationDateTime < now) return "완료";
+    if (now >= startTime && now <= endTime) return "진행중";
+    if (now > endTime) return "완료";
     return "예약";
   };
+
   return (
     <div className="reservation-card">
       <h2>내 예약</h2>
+
       {reservations && reservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
@@ -37,14 +44,24 @@ const MyReservation = ({ reservations, onEdit, onCancel }) => {
                     ? new Date(r.reservationdatetime).toTimeString().slice(0, 5)
                     : "-"}
                 </td>
-                <td className={r.status.toLowerCase()}>{r.status}</td>
+                <td className={getStatus(r).toLowerCase()}>{getStatus(r)}</td>
                 <td>
-                  {r.status === "예약" && (
+                  {getStatus(r) === "예약" && (
                     <button
                       className="action-btn delete"
                       onClick={() => onCancel(r.id)}
+                      value={"취소"}
                     >
                       취소
+                    </button>
+                  )}
+                  {getStatus(r) === "완료" && (
+                    <button
+                      className="action-btn delete"
+                      onClick={() => onCancel(r.id)}
+                      value={"삭제"}
+                    >
+                      삭제
                     </button>
                   )}
                 </td>

@@ -3,7 +3,7 @@ import PostCard from "../component/PostCard";
 import "./Profile.css";
 import api from "../api/axiosconfig";
 import MyReservation from "../component/MyReservation";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Reservation from "./Reservation";
 
 const Profile = () => {
@@ -16,6 +16,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState(
     location.state?.activeTab || "profile"
   );
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -52,8 +53,19 @@ const Profile = () => {
       console.error(error);
     }
   };
-  const handleReserve = async () => {};
-  const handleCancel = async () => {};
+
+  const handleCancel = async (id) => {
+    if (!window.confirm("정말 취소 하시겠습니까?")) {
+      return;
+    }
+    try {
+      await api.delete(`/api/reservation/${id}`);
+      alert("예약 취소 성공");
+      myPage();
+    } catch (error) {
+      alert("삭제 실패");
+    }
+  };
 
   const dummyPosts = [
     { id: 1, title: "내 헤어컷 후기", author: "나", date: "2025-10-17" },
@@ -61,7 +73,11 @@ const Profile = () => {
   ];
 
   if (loading) return <p>프로필 로딩 중...</p>;
-  if (!member) return <p>로그인이 필요합니다.</p>;
+  if (!member) {
+    <p>로그인이 필요합니다.</p>;
+    navigate("/login");
+    return;
+  }
 
   return (
     <div className="profile-container">
@@ -106,6 +122,7 @@ const Profile = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="새 비밀번호"
+                  required
                 />
                 <div className="button-group">
                   <button className="action-btn edit" onClick={handleUpdate}>
