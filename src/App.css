@@ -87,3 +87,11 @@ textarea:focus {
   background-color: #c4c4c4;
   transform: translateY(-1px);
 }
+.err {
+  font-size: 14px;
+  color: #555555; /* 살짝 어두운 회색 */
+  margin: 12px 0;
+  /* padding: 8px 12px; */
+  border-radius: 12px;
+  text-align: center;
+}

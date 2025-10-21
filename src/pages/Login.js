@@ -20,7 +20,8 @@ const Login = ({ onLogin }) => {
       alert("로그인 성공");
       navigate("/", { replace: true });
     } catch (error) {
-      alert("로그인 실패");
+      alert("아이디 또는 비밀번호를 다시 확인해 주세요.");
+      setPassword("");
     }
   };
   return (

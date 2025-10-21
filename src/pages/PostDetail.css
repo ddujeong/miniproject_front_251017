@@ -121,3 +121,32 @@
 .comment-button:hover {
   background-color: #6d5de0;
 }
+.post-badge.헤어 {
+  background-color: #f0e68c;
+} /* 연한 카키 */
+.post-badge.피부 {
+  background-color: #ffe4e1;
+} /* 연한 핑크 */
+.post-badge.패키지 {
+  background-color: #add8e6;
+} /* 연한 블루 */
+.post-badge.이벤트 {
+  background-color: #f5deb3;
+} /* 연한 베이지 */
+.post-detail-container select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-datail-container select:focus {
+  border-color: #8c7dff; /* 라벤더 포인트 */
+  box-shadow: 0 0 0 2px rgba(140, 125, 255, 0.2);
+  outline: none;
+}

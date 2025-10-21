@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import "./Reservation.css";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosconfig";
-
+const services = {
+  헤어: ["커트", "염색", "펌", "매직", "트리트먼트"],
+  피부: ["피부관리", "마사지", "네일", "왁싱"],
+  패키지: ["커트+염색", "풀 뷰티 패키지"],
+  이벤트: ["생일 할인", "시즌 이벤트", "프로모션"],
+};
 const Reservation = ({ member }) => {
   const now = new Date();
   const today = now.toISOString().slice(0, 10);
+  const [category, setCategory] = useState("");
   const [service, setService] = useState("커트");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(today);
   const [time, setTime] = useState("");
   const [reservations, setReservations] = useState([]);
   const navigate = useNavigate();
@@ -41,7 +47,7 @@ const Reservation = ({ member }) => {
       navigate("/login");
       return;
     }
-    if (!service || !date || !time) {
+    if (!category || !service || !date || !time) {
       alert("모든 항목을 선택해주세요.");
       return;
     }
@@ -54,6 +60,7 @@ const Reservation = ({ member }) => {
     const exists = reservations.some(
       (r) =>
         r.service === service &&
+        r.category === category &&
         new Date(r.reservationdatetime).getTime() ===
           reservationdatetime.getTime()
     );
@@ -65,6 +72,7 @@ const Reservation = ({ member }) => {
     await api.post("/api/reservation", {
       service,
       reservationdatetime: `${date}T${time}`,
+      category,
     });
     // 입력 초기화
     setService("");
@@ -77,11 +85,36 @@ const Reservation = ({ member }) => {
       <h2>예약하기</h2>
       <form onSubmit={handleSubmit} className="reservation-form">
         <label>
+          카테고리
+          <select
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setService("");
+            }}
+          >
+            <option value="">-- 선택 --</option>
+            {Object.keys(services).map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
           서비스
-          <select value={service} onChange={(e) => setService(e.target.value)}>
-            <option value="커트">커트</option>
-            <option value="염색">염색</option>
-            <option value="스킨케어">스킨케어</option>
+          <select
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            disabled={!category}
+          >
+            <option value="">-- 선택 --</option>
+            {category &&
+              services[category].map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
           </select>
         </label>
         <label>

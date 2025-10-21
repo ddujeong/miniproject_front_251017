@@ -12,7 +12,8 @@ const PostCard = ({ post }) => {
       key={post.id}
       onClick={() => navigate(`/post/${post.id}`)}
     >
-      <div className="badge">{post.category}</div> {/* 카테고리 배지 */}
+      <div className={`post-card badge ${post.category}`}>{post.category}</div>{" "}
+      {/* 카테고리 배지 */}
       <h2>
         {post.title}[{post.comments.length}]
       </h2>
