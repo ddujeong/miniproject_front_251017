@@ -3,6 +3,7 @@ import api from "../api/axiosconfig";
 
 const CommentEdit = ({ comment, setEditing, loadComment }) => {
   const [content, setContent] = useState(comment.content);
+  const [errors, setErrors] = useState({});
 
   const handleUpdate = async () => {
     if (!window.confirm("정말 수정 하시겠습니까?")) {
@@ -14,9 +15,13 @@ const CommentEdit = ({ comment, setEditing, loadComment }) => {
       setContent(res.data.content);
       setEditing(false);
       loadComment();
-    } catch (error) {
-      if (error.response.status === 403) {
+    } catch (err) {
+      if (err.response.status === 403) {
         alert("수정 권한이 없습니다.");
+      }
+      if (err.response && err.response.status === 400) {
+        setErrors(err.response.data);
+        console.log(err.response.data);
       } else {
         alert("수정 실패");
       }
@@ -30,6 +35,9 @@ const CommentEdit = ({ comment, setEditing, loadComment }) => {
         onChange={(e) => setContent(e.target.value)}
         className="comment-edit-input"
       />
+      {errors.errors && errors.errors.length > 0 && (
+        <p className="err">{errors.errors[0].defaultMessage}</p>
+      )}
       <>
         <button className="action-btn edit" onClick={handleUpdate}>
           저장

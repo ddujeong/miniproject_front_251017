@@ -9,7 +9,6 @@ const PostDetail = ({ member }) => {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { id } = useParams(); // board/:id id 파라미터 받아오기
   const [comment, setComment] = useState([]);
 

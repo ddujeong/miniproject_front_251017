@@ -46,7 +46,10 @@ function App() {
         <Route path="/write" element={<PostWrite member={member} />}></Route>
         <Route path="/login" element={<Login onLogin={setMember} />}></Route>
         <Route path="/signup" element={<Register />}></Route>
-        <Route path="/profile" element={<Profile member={member} />}></Route>
+        <Route
+          path="/profile"
+          element={<Profile member={member} setMember={setMember} />}
+        ></Route>
         <Route
           path="/reservation"
           element={<Reservation member={member} />}

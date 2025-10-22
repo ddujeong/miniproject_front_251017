@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import api from "../api/axiosconfig";
 import "../pages/Reservation.css";
 
 const MyReservation = ({ reservations, onCancel }) => {
@@ -15,8 +13,6 @@ const MyReservation = ({ reservations, onCancel }) => {
 
   return (
     <div className="reservation-card">
-      <h2>내 예약</h2>
-
       {reservations && reservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
@@ -49,7 +45,7 @@ const MyReservation = ({ reservations, onCancel }) => {
                   {getStatus(r) === "예약" && (
                     <button
                       className="action-btn delete"
-                      onClick={() => onCancel(r.id)}
+                      onClick={() => onCancel(r.id, "취소")}
                       value={"취소"}
                     >
                       취소
@@ -58,7 +54,7 @@ const MyReservation = ({ reservations, onCancel }) => {
                   {getStatus(r) === "완료" && (
                     <button
                       className="action-btn delete"
-                      onClick={() => onCancel(r.id)}
+                      onClick={() => onCancel(r.id, "삭제")}
                       value={"삭제"}
                     >
                       삭제

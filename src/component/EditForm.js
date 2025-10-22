@@ -6,6 +6,7 @@ const EditForm = ({ post, setPost, setEditing }) => {
   const [category, setCategory] = useState(post.category);
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const handleUpdate = async () => {
     if (!window.confirm("정말 수정 하시겠습니까?")) {
@@ -21,11 +22,15 @@ const EditForm = ({ post, setPost, setEditing }) => {
       setPost(res.data);
       setEditing(false);
       navigate(`/post/${post.id}`);
-    } catch (error) {
-      if (error.response.status === 403) {
+    } catch (err) {
+      if (err.response.status === 403) {
         alert("수정 권한이 없습니다.");
         navigate("/");
         return;
+      }
+      if (err.response && err.response.status === 400) {
+        setErrors(err.response.data);
+        console.log(err.response.data);
       } else {
         alert("수정 실패");
       }
@@ -50,10 +55,16 @@ const EditForm = ({ post, setPost, setEditing }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        {errors.errors && errors.errors.length > 0 && (
+          <p className="err">{errors.errors[0].defaultMessage}</p>
+        )}
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+        {errors.errors && errors.errors[1] && (
+          <p className="err">{errors.errors[1].defaultMessage}</p>
+        )}
         <div className="button_group">
           <button className="action-btn edit" onClick={handleUpdate}>
             저장

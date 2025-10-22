@@ -18,12 +18,7 @@ const CommentSection = ({ comment, member, loadComment, id }) => {
         <p className="err">댓글이 없습니다.</p>
       )}
 
-      <CommentForm
-        member={member}
-        comment={comment}
-        loadComment={loadComment}
-        id={id}
-      />
+      <CommentForm member={member} loadComment={loadComment} id={id} />
     </div>
   );
 };
