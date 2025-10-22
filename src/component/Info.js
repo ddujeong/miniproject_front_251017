@@ -2,11 +2,10 @@ import { useState } from "react";
 import api from "../api/axiosconfig";
 import { useNavigate } from "react-router-dom";
 
-const Info = ({ member, setMember, setName, name }) => {
+const Info = ({ member, setMember, setName, name, handleDelete }) => {
   const [editing, setEditing] = useState(false);
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
   const handleUpdate = async () => {
     try {
       const res = await api.put("/api/member/profile", { name, password });
@@ -16,21 +15,6 @@ const Info = ({ member, setMember, setName, name }) => {
       setPassword("");
     } catch (error) {
       alert("프로필 수정 실패");
-      console.error(error);
-    }
-  };
-  const handleDelete = async (id) => {
-    if (!window.confirm("정말 탈퇴 하시겠습니까?")) {
-      return;
-    }
-    try {
-      await api.delete(`/api/member/${member.id}`);
-      setMember(null);
-      alert("회원탈퇴가 정상적으로 처리 되었습니다.");
-      navigate("/");
-      return;
-    } catch (error) {
-      alert("탈퇴 실패");
       console.error(error);
     }
   };

@@ -8,7 +8,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const navigete = useNavigate();
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ const Register = () => {
     try {
       await api.post("/api/member/signup", { name, email, password });
       alert("회원가입 성공!");
-      navigete("/login");
+      navigate("/login");
     } catch (err) {
       if (err.response && err.response.status === 400) {
         setErrors(err.response.data);

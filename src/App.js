@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import Login from "./pages/Login";
@@ -15,12 +20,34 @@ import api from "./api/axiosconfig";
 
 function App() {
   const [member, setMember] = useState(null);
+  const navigate = useNavigate();
   const checkMember = async () => {
+    setMember(null);
     try {
       const res = await api.get("/api/member/me");
-      setMember(res.data.email);
+      if (res.data?.id) {
+        setMember(res.data);
+      } else {
+        setMember(null);
+      }
     } catch (error) {
       setMember(null);
+    }
+  };
+  const handleDelete = async (id) => {
+    if (!window.confirm("정말 탈퇴 하시겠습니까?")) {
+      return;
+    }
+    try {
+      await api.delete(`/api/member/${member.id}`);
+      await api.post("/api/member/logout");
+      setMember(null);
+      alert("회원탈퇴가 정상적으로 처리 되었습니다.");
+      navigate("/");
+      return;
+    } catch (error) {
+      alert("탈퇴 실패");
+      console.error(error);
     }
   };
 
@@ -34,7 +61,7 @@ function App() {
     }
   };
   return (
-    <Router>
+    <>
       <Header onLogout={handleLogout} member={member} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -48,7 +75,13 @@ function App() {
         <Route path="/signup" element={<Register />}></Route>
         <Route
           path="/profile"
-          element={<Profile member={member} setMember={setMember} />}
+          element={
+            <Profile
+              member={member}
+              setMember={setMember}
+              handleDelete={handleDelete}
+            />
+          }
         ></Route>
         <Route
           path="/reservation"
@@ -56,7 +89,7 @@ function App() {
         ></Route>
       </Routes>
       <Footer />
-    </Router>
+    </>
 
     // <div className="App">
     //   <Header />

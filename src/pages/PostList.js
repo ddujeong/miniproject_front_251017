@@ -16,7 +16,7 @@ const PostList = () => {
     try {
       setLoading(true);
       const res = await api.get(
-        `/api/post?page=${page}&size=5&size=5&category=${category}`
+        `/api/post?page=${page}&size=5&category=${category}`
       );
       setPosts(res.data.posts);
       setCurrentPage(res.data.currentPage); // 현재 페이지

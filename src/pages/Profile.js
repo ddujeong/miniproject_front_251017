@@ -6,7 +6,7 @@ import MyReservation from "../component/MyReservation";
 import { useLocation, useNavigate } from "react-router-dom";
 import Info from "../component/Info";
 
-const Profile = ({ member, setMember }) => {
+const Profile = ({ member, setMember, handleDelete }) => {
   const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,9 +54,7 @@ const Profile = ({ member, setMember }) => {
 
   if (loading) return <p>프로필 로딩 중...</p>;
   if (!member) {
-    <p>로그인이 필요합니다.</p>;
-    navigate("/login");
-    return;
+    return <p>로그인이 필요합니다.</p>;
   }
 
   return (
@@ -89,6 +87,7 @@ const Profile = ({ member, setMember }) => {
             setMember={setMember}
             setName={setName}
             name={name}
+            handleDelete={handleDelete}
           />
         </div>
       )}
